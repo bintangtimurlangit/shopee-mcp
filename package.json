@@ -1,0 +1,63 @@
+{
+  "name": "@bintangtimurlangit/shopee-mcp",
+  "version": "0.1.0",
+  "description": "An MCP server for exploring Shopee — product search and prices via an authenticated browser session. Discovery only, no seller features.",
+  "license": "MIT",
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bintangtimurlangit/shopee-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bintangtimurlangit/shopee-mcp/issues"
+  },
+  "homepage": "https://github.com/bintangtimurlangit/shopee-mcp#readme",
+  "bin": {
+    "shopee-mcp": "build/index.js",
+    "shopee-mcp-login": "build/login.js"
+  },
+  "scripts": {
+    "clean": "node -e \"require('fs').rmSync('build',{recursive:true,force:true})\"",
+    "prebuild": "npm run clean",
+    "build": "tsc",
+    "login": "tsx src/login.ts",
+    "dev": "tsx watch src/index.ts",
+    "start": "node build/index.js",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx test/smoke.ts"
+  },
+  "files": [
+    "build",
+    ".env.example",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "shopee",
+    "indonesia",
+    "ecommerce",
+    "marketplace",
+    "product-search",
+    "discovery"
+  ],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "cloakbrowser": "^0.4.10",
+    "dotenv": "^17.4.2",
+    "playwright": "^1.49.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.23.0",
+    "typescript": "^5.9.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
