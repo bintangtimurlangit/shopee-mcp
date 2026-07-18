@@ -38,9 +38,19 @@ So this server:
 
 The browser must run **headed** (Shopee detects headless); on a server use a virtual display (`xvfb`).
 
-## Setup
+### From npm (recommended)
 
 ```bash
+npm install -g @bintangtimurlangit/shopee-mcp   # downloads the CloakBrowser binary (~200 MB, cached)
+```
+
+This puts two commands on your PATH: **`shopee-mcp`** (the server) and **`shopee-mcp-login`** (one-time login). Or run without installing: `npx -y @bintangtimurlangit/shopee-mcp`.
+
+### From source
+
+```bash
+git clone https://github.com/bintangtimurlangit/shopee-mcp.git
+cd shopee-mcp
 npm install          # also downloads the CloakBrowser binary (~200 MB, cached)
 npm run build
 ```
@@ -50,9 +60,10 @@ npm run build
 Shopee blocks anonymous requests, so you sign in one time. This saves a session to `~/.shopee-mcp/chrome-profile`.
 
 ```bash
-npm run login        # opens a CloakBrowser window — log in, then press Enter
+shopee-mcp-login     # global install — or, from a source checkout:  npm run login
 ```
 
+- Opens a CloakBrowser window — log in, then press Enter.
 - On a desktop / WSLg, the window appears normally.
 - Re-run only when the session expires.
 
@@ -67,13 +78,13 @@ Claude Desktop / Claude Code `mcpServers` entry:
   "mcpServers": {
     "shopee": {
       "command": "xvfb-run",
-      "args": ["-a", "node", "/absolute/path/to/shopee-mcp/build/index.js"]
+      "args": ["-a", "shopee-mcp"]
     }
   }
 }
 ```
 
-On a machine with a real display you can drop `xvfb-run` and use `"command": "node"`, `"args": ["…/build/index.js"]` (a browser window will pop up per session).
+On a machine with a real display, drop `xvfb-run`: `"command": "shopee-mcp"`, `"args": []`. From a source checkout, use `"command": "node"`, `"args": ["/absolute/path/to/shopee-mcp/build/index.js"]` (wrapped in `xvfb-run` on a headless box).
 
 ## Configuration
 
