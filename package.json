@@ -61,7 +61,7 @@
   ],
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
-    "cloakbrowser": "^0.4.10",
+    "cloakbrowser": "^0.4.11",
     "dotenv": "^17.4.2",
     "playwright": "^1.49.0",
     "zod": "^3.25.76"
