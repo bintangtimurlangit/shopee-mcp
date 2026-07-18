@@ -5,7 +5,7 @@ import { ShopeeAPIError, ShopeeAuthRequiredError } from '../api/client.js';
  * instead of throwing and crashing the server.
  */
 export async function withErrorHandling(
-  fn: () => Promise<{ content: Array<{ type: 'text'; text: string }> }>
+  fn: () => Promise<{ content: Array<{ type: 'text'; text: string }> }>,
 ): Promise<{ content: Array<{ type: 'text'; text: string }> }> {
   try {
     return await fn();

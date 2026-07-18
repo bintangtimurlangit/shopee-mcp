@@ -8,7 +8,7 @@ export class ShopeeAPIError extends Error {
     message: string,
     public readonly statusCode?: number,
     public readonly endpoint?: string,
-    public readonly shopeeError?: number
+    public readonly shopeeError?: number,
   ) {
     super(message);
     this.name = 'ShopeeAPIError';
@@ -23,7 +23,7 @@ export class ShopeeAuthRequiredError extends ShopeeAPIError {
         '`shopee-mcp-login`) once to sign in, then retry.',
       200,
       endpoint,
-      SHOPEE_ANTIBOT_ERROR
+      SHOPEE_ANTIBOT_ERROR,
     );
     this.name = 'ShopeeAuthRequiredError';
   }
@@ -40,7 +40,7 @@ export class ShopeeAuthRequiredError extends ShopeeAPIError {
 export async function shopeeCapture<T extends { error?: number; error_msg?: string }>(
   pageUrl: string,
   apiMatch: string,
-  timeoutMs?: number
+  timeoutMs?: number,
 ): Promise<T> {
   let json: T;
   try {
@@ -62,7 +62,7 @@ export async function shopeeCapture<T extends { error?: number; error_msg?: stri
       `Shopee API error ${json.error}${json.error_msg ? `: ${json.error_msg}` : ''} for ${apiMatch}`,
       200,
       apiMatch,
-      json.error
+      json.error,
     );
   }
   return json;

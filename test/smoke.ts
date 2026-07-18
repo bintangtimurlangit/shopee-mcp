@@ -54,7 +54,9 @@ async function main() {
   await client.connect(transport);
 
   const { tools } = await client.listTools();
-  console.log(`\n🔌 Connected. Server exposes ${tools.length} tool(s): ${tools.map((t) => t.name).join(', ')}\n`);
+  console.log(
+    `\n🔌 Connected. Server exposes ${tools.length} tool(s): ${tools.map((t) => t.name).join(', ')}\n`,
+  );
 
   let failures = 0;
   for (const check of CHECKS) {
@@ -72,7 +74,9 @@ async function main() {
         note = `hard failure: "${hardFail}" — ${text.slice(0, 100).replace(/\n/g, ' ')}`;
       } else if (check.expect.some((m) => text.toLowerCase().includes(m.toLowerCase()))) {
         status = 'PASS';
-        note = text.includes('Not signed in') ? 'login prompt (pipeline OK, no session)' : 'returned data';
+        note = text.includes('Not signed in')
+          ? 'login prompt (pipeline OK, no session)'
+          : 'returned data';
       } else {
         note = `unexpected — got: ${text.slice(0, 100).replace(/\n/g, ' ')}`;
       }

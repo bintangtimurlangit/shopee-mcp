@@ -98,7 +98,7 @@ export async function captureJson<T>(pageUrl: string, opts: CaptureOptions): Pro
 
     const matched = page.waitForResponse(
       (r: Response) => r.url().includes('/api/v4/') && r.url().includes(opts.apiMatch),
-      { timeout: timeoutMs }
+      { timeout: timeoutMs },
     );
 
     await page.goto(pageUrl, { waitUntil: 'domcontentloaded', timeout: timeoutMs });

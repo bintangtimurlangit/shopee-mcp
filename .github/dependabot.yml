@@ -1,0 +1,39 @@
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+    # Major bumps need explicit review.
+    ignore:
+      - dependency-name: zod
+        update-types:
+          - version-update:semver-major
+      - dependency-name: typescript
+        update-types:
+          - version-update:semver-major
+      - dependency-name: '@types/node'
+        update-types:
+          - version-update:semver-major
+      - dependency-name: '@modelcontextprotocol/sdk'
+        update-types:
+          - version-update:semver-major
+      - dependency-name: playwright
+        update-types:
+          - version-update:semver-major
+      - dependency-name: cloakbrowser
+        update-types:
+          - version-update:semver-major
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    labels:
+      - dependencies
+      - github-actions

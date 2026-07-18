@@ -36,7 +36,10 @@ export function registerProductTools(server: McpServer): void {
     'Get details for a Shopee product: title, price (and discount), brand, condition, category, rating, stock, seller location, and description. ' +
       'Provide the numeric shopId + itemId (from search_products), or a full product URL.',
     {
-      shopId: z.string().optional().describe('Numeric shop ID (from search_products URL / results)'),
+      shopId: z
+        .string()
+        .optional()
+        .describe('Numeric shop ID (from search_products URL / results)'),
       itemId: z.string().optional().describe('Numeric item/product ID (the 🆔 in search_products)'),
       url: z
         .string()
@@ -78,7 +81,10 @@ export function registerProductTools(server: McpServer): void {
         if (!item || !pp) {
           return {
             content: [
-              { type: 'text', text: '❌ Could not read product data. Check the shopId/itemId or URL.' },
+              {
+                type: 'text',
+                text: '❌ Could not read product data. Check the shopId/itemId or URL.',
+              },
             ],
           };
         }
@@ -86,8 +92,7 @@ export function registerProductTools(server: McpServer): void {
         const currency = item.currency || 'IDR';
         const price = priceText(pp.price, currency);
         const before =
-          pp.price_before_discount &&
-          pp.price_before_discount.single_value > pp.price.single_value
+          pp.price_before_discount && pp.price_before_discount.single_value > pp.price.single_value
             ? pp.price_before_discount
             : undefined;
         const discountPct = before
@@ -99,7 +104,9 @@ export function registerProductTools(server: McpServer): void {
         const rating = item.item_rating?.rating_star;
         const ratingCount = review?.total_rating_count ?? review?.cmt_count ?? 0;
         const soldText =
-          review?.sold_count_display ?? review?.historical_sold_display ?? review?.global_sold_display;
+          review?.sold_count_display ??
+          review?.historical_sold_display ??
+          review?.global_sold_display;
         const breadcrumb = (item.categories ?? []).map((c) => c.display_name).join(' › ');
         const stock = item.stock ?? item.normal_stock ?? undefined;
 
@@ -116,14 +123,20 @@ export function registerProductTools(server: McpServer): void {
           item.brand ? `  🏷 Brand: ${item.brand}` : '',
           `  🆕 Condition: ${conditionLabel}`,
           breadcrumb ? `  🗂 Category: ${breadcrumb}` : '',
-          stock !== undefined && stock !== null ? `  📦 Stock: ${stock.toLocaleString('id-ID')}` : '',
+          stock !== undefined && stock !== null
+            ? `  📦 Stock: ${stock.toLocaleString('id-ID')}`
+            : '',
           item.is_free_shipping ? `  🚚 Free shipping` : '',
           `  📍 Location: ${item.shop_location || 'N/A'}`,
           `  🆔 Item ID: \`${item.item_id}\` | Shop ID: \`${item.shop_id}\``,
         ].filter((l) => l !== '');
 
         if (item.description) {
-          lines.push('', '📝 **Description:**', truncate(item.description.replace(/\n+/g, ' ').trim(), 400));
+          lines.push(
+            '',
+            '📝 **Description:**',
+            truncate(item.description.replace(/\n+/g, ' ').trim(), 400),
+          );
         }
         lines.push('', `🔗 ${BASE_URL}/product/${item.shop_id}/${item.item_id}`);
 
@@ -131,6 +144,6 @@ export function registerProductTools(server: McpServer): void {
         cache.set(cacheKey, text);
         return { content: [{ type: 'text', text }] };
       });
-    }
+    },
   );
 }

@@ -96,7 +96,7 @@ export function registerSearchTools(server: McpServer): void {
           lines.push(`${rank}. **${b.name}**`);
           lines.push(`   💰 ${priceText(b)}`);
           lines.push(
-            `   ${rating}${soldText} | 🏪 ${b.shop_location || 'N/A'}${official} | 🆔 ${b.itemid}`
+            `   ${rating}${soldText} | 🏪 ${b.shop_location || 'N/A'}${official} | 🆔 ${b.itemid}`,
           );
           lines.push(`   🔗 ${url}`);
           if (i < shown.length - 1) lines.push('');
@@ -110,6 +110,6 @@ export function registerSearchTools(server: McpServer): void {
         cache.set(cacheKey, text);
         return { content: [{ type: 'text', text }] };
       });
-    }
+    },
   );
 }
