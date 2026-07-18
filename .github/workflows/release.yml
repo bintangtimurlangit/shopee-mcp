@@ -3,8 +3,10 @@ name: Release
 # Publishes to npm when a version tag is pushed, e.g.:
 #   git tag v0.1.1 && git push origin v0.1.1
 #
-# Requires an npm automation token stored as the repo secret `NPM_TOKEN`.
-# If the secret is absent the publish step is skipped (build/typecheck still run).
+# Uses npm **Trusted Publishing (OIDC)** — NO token, nothing to rotate, nothing
+# expires. One-time setup: on npmjs.com, open the package →
+# Settings → "Trusted Publisher" → add this GitHub repo + `release.yml`.
+# Until that is configured, the publish step will fail; the build still runs.
 
 on:
   push:
@@ -12,7 +14,7 @@ on:
 
 permissions:
   contents: write # create the GitHub release
-  id-token: write # npm provenance
+  id-token: write # npm Trusted Publishing (OIDC) + provenance
 
 jobs:
   release:
@@ -26,29 +28,21 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           cache: npm
 
+      # npm Trusted Publishing (OIDC) requires npm >= 11.5.1.
+      - run: npm install -g npm@latest
       - run: npm ci
       - run: npm run typecheck
       - run: npm run build
 
-      - name: Publish to npm
-        if: ${{ env.NPM_TOKEN != '' }}
+      - name: Publish to npm (OIDC Trusted Publishing — tokenless)
         run: |
           NAME=$(node -p "require('./package.json').name")
           VERSION=$(node -p "require('./package.json').version")
           if npm view "$NAME@$VERSION" version >/dev/null 2>&1; then
             echo "::notice::$NAME@$VERSION is already published — skipping publish."
           else
-            npm publish --provenance --access public
+            npm publish
           fi
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Skip publish (no NPM_TOKEN)
-        if: ${{ env.NPM_TOKEN == '' }}
-        run: echo "::warning::NPM_TOKEN secret not set — skipping npm publish. Build and typecheck passed."
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
