@@ -6,9 +6,15 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-07-21
+
 ### Added
 
 - Standardized project scaffolding: `LICENSE` (MIT), `.editorconfig`, ESLint + Prettier, Conventional Commits (commitlint), Husky pre-commit hooks, CI + release workflows, issue/PR templates, and a `docs/` guide set.
+
+### Changed
+
+- Updated runtime and development dependencies, and standardized the npm trusted-publishing release workflow.
 
 ## [0.1.0] - 2026-07-12
 
@@ -18,5 +24,6 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 - **2 tools:** `search_products` (keyword search with sorting & pagination) and `get_product_detail` (price, discount, brand, condition, rating, review/sold counts, stock, location, description).
 - In-memory read cache and a persistent browser profile under `~/.shopee-mcp/`.
 
-[Unreleased]: https://github.com/bintangtimurlangit/shopee-mcp/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/bintangtimurlangit/shopee-mcp/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/bintangtimurlangit/shopee-mcp/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/bintangtimurlangit/shopee-mcp/releases/tag/v0.1.0

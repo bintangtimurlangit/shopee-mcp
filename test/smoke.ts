@@ -62,7 +62,7 @@ async function main() {
   for (const check of CHECKS) {
     let text = '';
     let status: 'PASS' | 'FAIL' = 'FAIL';
-    let note = '';
+    let note: string;
     try {
       const res = (await client.callTool({ name: check.tool, arguments: check.args })) as {
         content: Array<{ type: string; text?: string }>;
