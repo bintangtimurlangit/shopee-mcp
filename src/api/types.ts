@@ -32,6 +32,11 @@ export interface SearchItem {
   itemid: number;
   shopid: number;
   item_basic: ItemBasic;
+  /**
+   * Shopee search response sometimes nests real product cards under `real_items`
+   * (e.g. recommendation/ads cards that have no top-level `item_basic`).
+   */
+  real_items?: Array<{ item_basic: ItemBasic }>;
 }
 
 export interface SearchItemsResponse {

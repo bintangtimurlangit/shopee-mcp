@@ -63,7 +63,15 @@ export function registerSearchTools(server: McpServer): void {
 
         const data = await shopeeCapture<SearchItemsResponse>(searchUrl, 'search/search_items');
 
-        const items = data.items ?? [];
+        // Shopee search response mixes plain product cards (with `item_basic`) and
+        // recommendation/ads cards that nest real products under `real_items`.
+        // Flatten both so every result row carries an `item_basic`.
+        const items = (data.items ?? []).flatMap((it) => {
+          if (it.item_basic) return [it];
+          if (it.real_items?.length)
+            return it.real_items.map((ri) => ({ item_basic: ri.item_basic }));
+          return [];
+        });
         if (items.length === 0) {
           return {
             content: [
@@ -84,6 +92,7 @@ export function registerSearchTools(server: McpServer): void {
 
         shown.forEach((it, i) => {
           const b = it.item_basic;
+          if (!b) return;
           const rank = (page - 1) * limit + i + 1;
           const rating = b.item_rating?.rating_star
             ? `⭐ ${b.item_rating.rating_star.toFixed(1)}`
